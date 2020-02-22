@@ -7,6 +7,31 @@
 </head>
 
 <body>
+	<div class="ui container">
+		<div class="ui segment">
+			<form class="ui form">
+				<h4 class="ui dividing header">Shipper Information</h4>
+				<div class="two fields">
+					<div class="field">
+						<label>Account</label>
+						<input type="text" placeholder="Account Number" data-bind="ship_account">
+					</div>
+					<div class="field">
+						<label>Reference</label>
+						<input type="text" placeholder="Reference" data-bind="ship_reference">
+					</div>
+				</div>
+
+			</form>
+		</div>
+
+<!--
+		Reference: <span data-bind="ship_reference"></span><br/>
+		Account: <span data-bind="ship_account"></span>
+-->
+	</div>
+
+	<div id="tag" class="ui bottom left attached label"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
@@ -17,11 +42,41 @@ var app={
 	logo: "",
 	address: "",
 	website: "",
-	shipper: $.bindings({}),
-	consignee: $.bindings({}),
-	shipment: $.bindings({})
+	input: $.bindings({
+			"ship_name":"",
+			"ship_company_name":"",
+			"ship_phone":"",
+			"ship_address":"",
+			"ship_city":"",
+			"ship_state":"",
+			"ship_zip":"",
+			"ship_country":"",
+			"ship_account":"",
+			"ship_reference":"",
+			"con_name":"",
+			"con_company_name":"",
+			"con_phone":"",
+			"con_address":"",
+			"con_city":"",
+			"con_state":"",
+			"con_zip":"",
+			"con_country":"",
+			"con_email":"",
+			"con_tax_id":"",
+			"contents":"",
+			"description":"",
+			"pieces":"",
+			"packaging":"P",
+			"weight":"",
+			"weight_qualifier":"lbs",
+			"value":"",
+			"service":"ST",
+			"bill_to":"P",
+			"dimensions":""
+	})
 };
 function init(){
+	$( "#tag" ).text( app.id );
 }
 $(function(){
 	init();
