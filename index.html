@@ -225,28 +225,92 @@ var app={
 			"con_country":"",
 			"con_email":"",
 			"con_tax_id":"",
-			"contents":"DOC",
+			"weight":"",
+			"value":"",
 			"description":"",
 			"pieces":"",
+			"dimensions":"",
+			"contents":"DOC",
 			"packaging":"P",
-			"weight":"",
 			"weight_qualifier":"lbs",
-			"value":"",
 			"service":"ST",
 			"bill_to":"P",
-			"dimensions":"",
 			"dimensions_qualifier": "inch"
 	})
 };
+
+function reset(){
+	const keys = Object.keys( app.input );
+	for (var property in app.input) {
+	  if( app.input.hasOwnProperty( property ) ) {
+			app.input[ property ] = "";
+	  }
+	}
+	app.input.contents = "DOC";
+	app.input.packaging = "P";
+	app.input.weight_qualifier = "lbs";
+	app.input.service = "ST";
+	app.input.bill_to = "P";
+	app.input.dimensions_qualifier = "inch";
+}
+
+function toServiceJSON(){
+	var billData = {
+		"shipper": {
+			"name": app.input.ship_name,
+			"company_name": app.input.ship_company_name,
+			"phone": app.input.ship_phone,
+			"address": app.input.ship_address,
+			"city": app.input.ship_city,
+			"state": app.input.ship_state,
+			"zip": app.input.ship_zip,
+			"country": app.input.ship_country,
+			"account": app.input.ship_account
+		 },
+		"consignee": {
+			"name": app.input.con_name,
+			"company_name": app.input.con_company_name,
+			"phone": app.input.con_phone,
+			"address": app.input.con_address,
+			"city": app.input.con_city,
+			"state": app.input.con_state,
+			"zip": app.input.con_zip,
+			"country": app.input.con_country,
+			"email": "",
+			"tax_id": ""
+		},
+		"shipment": {
+			"contents": app.input.contents,
+			"description": app.input.description,
+			"pieces": app.input.pieces,
+			"packaging": app.input.packaging,
+			"weight": app.input.weight,
+			"weight_qualifier": app.input.weight_qualifier,
+			"value": app.input.value,
+			"service": app.input.service,
+			"bill_to": app.input.bill_to,
+			"platinum_service": "",
+			"insurance_amount": "",
+			"dimensions": app.input.dimmensions,
+			"dimensions_qualifier": app.input.dimensions_qualifier,
+			"tracking": ""
+		}
+	}
+	return billData;
+
+}
+
 function init(){
 	$( "#tag" ).text( app.id );
 	$( ".blue.button" ).click( function( e ){
 		e.preventDefault();
-		console.log( app.input );
+		console.log( toServiceJSON() );
 		console.log( "blue click");
 	});
 	$( ".red.button" ).click( function( e ){
 		e.preventDefault();
+		reset();
+		console.log( toServiceJSON() );
 		console.log( "red click");
 	});
 }
