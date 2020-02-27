@@ -8,8 +8,8 @@
 
 <body>
 	<div class="ui container">
-		<div class="ui segment">
-			<form class="ui form">
+		<form class="ui form">
+			<div class="ui segment">
 				<h4 class="ui dividing header">Shipper Information</h4>
 				<div class="two fields">
 					<div class="field">
@@ -21,9 +21,171 @@
 						<input type="text" placeholder="Reference" data-bind="ship_reference">
 					</div>
 				</div>
+				<div class="two fields">
+					<div class="field">
+						<label>Name</label>
+						<input type="text" placeholder="Shipper Name" data-bind="ship_name">
+					</div>
+					<div class="field">
+						<label>Company</label>
+						<input type="text" placeholder="Company Name" data-bind="ship_company_name">
+					</div>
+				</div>
+				<div class="field">
+						<label>Address</label>
+					<input type="text" placeholder="Shipper Address" data-bind="ship_address">
+				</div>
+				<div class="three fields">
+					<div class="field">
+						<label>City</label>
+						<input type="text" placeholder="Shipper City" data-bind="ship_city">
+					</div>
+					<div class="field">
+						<label>State</label>
+						<input type="text" placeholder="Company State" data-bind="ship_state">
+					</div>
+					<div class="field">
+						<label>Postal Code</label>
+						<input type="text" placeholder="Postal Code" data-bind="ship_zip">
+					</div>
+				</div>
+				<div class="two fields">
+					<div class="field">
+						<label>Country Code</label>
+						<input type="text" placeholder="Shipper Country Code" data-bind="ship_country">
+					</div>
+					<div class="field">
+						<label>Phone</label>
+						<input type="text" placeholder="Shipper Telephone" data-bind="ship_phone">
+					</div>
+				</div>
+			</div>
 
-			</form>
-		</div>
+			<div class="ui segment">
+				<h4 class="ui dividing header">Consignee Information</h4>
+				<div class="two fields">
+					<div class="field">
+						<label>Name</label>
+						<input type="text" placeholder="Consignee Name" data-bind="con_name">
+					</div>
+					<div class="field">
+						<label>Company</label>
+						<input type="text" placeholder="Company Name" data-bind="con_company_name">
+					</div>
+				</div>
+				<div class="field">
+						<label>Address</label>
+					<input type="text" placeholder="Consignee Address" data-bind="con_address">
+				</div>
+				<div class="three fields">
+					<div class="field">
+						<label>City</label>
+						<input type="text" placeholder="Consignee City" data-bind="con_city">
+					</div>
+					<div class="field">
+						<label>State</label>
+						<input type="text" placeholder="Consignee State" data-bind="con_state">
+					</div>
+					<div class="field">
+						<label>Postal Code</label>
+						<input type="text" placeholder="Consignee Code" data-bind="con_zip">
+					</div>
+				</div>
+				<div class="two fields">
+					<div class="field">
+						<label>Country Code</label>
+						<input type="text" placeholder="Consignee Country Code" data-bind="con_country">
+					</div>
+					<div class="field">
+						<label>Phone</label>
+						<input type="text" placeholder="Consignee Telephone" data-bind="con_phone">
+					</div>
+				</div>
+			</div>
+
+			<div class="ui segment">
+				<h4 class="ui dividing header">Shipment Information</h4>
+				<div class="field">
+					<label>Description</label>
+					<input type="text" placeholder="Description" data-bind="description">
+				</div>
+				<div class="two fields">
+					<div class="field">
+						<label>Weight</label>
+						<input type="text" placeholder="Weight" data-bind="weight">
+					</div>
+					<div class="field">
+						<label>Weight Unit</label>
+						<select class="ui dropdown" id="weight_qualifier" data-bind="weight_qualifier">
+						  <option value="lbs">Pounds</option>
+						  <option value="kgs">Kilograms</option>
+						</select>
+					</div>
+				</div>
+				<div class="two fields">
+					<div class="field">
+						<label>Pieces</label>
+						<input type="text" placeholder="Pieces" data-bind="pieces">
+					</div>
+					<div class="field">
+						<label>Value $</label>
+						<input type="text" placeholder="Value" data-bind="value">
+					</div>
+				</div>
+				<div class="two fields">
+					<div class="field">
+						<label>Type</label>
+						<select class="ui dropdown" id="contents" data-bind="contents">
+							<option value="DOC">Documents</option>
+							<option value="APX">Dutiable</option>
+						</select>
+					</div>
+					<div class="field">
+						<label>Packaging</label>
+						<select class="ui dropdown" id="packaging" data-bind="packaging">
+							<option value="P">Package</option>
+							<option value="L">Letter</option>
+							<option value="B">Box</option>
+							<option value="O">Other</option>
+						</select>
+					</div>
+				</div>
+				<div class="two fields">
+					<div class="field">
+						<label>Service</label>
+						<select class="ui dropdown" id="service" data-bind="service">
+							<option value="ST">Standard Courier</option>
+							<option value="GD">Ground</option>
+							<option value="P1">Priority</option>
+							<option value="DS">Deferred</option>
+						</select>
+					</div>
+					<div class="field">
+						<label>Payment</label>
+						<select class="ui dropdown" id="bill_to" data-bind="bill_to">
+							<option value="P">Pre Pay</option>
+							<option value="C">Collect</option>
+							<option value="F">Free Domicile</option>
+						</select>
+					</div>
+				</div>
+				<div class="two fields">
+					<div class="field">
+						<label>Dimmensions</label>
+						<input type="text" placeholder="L x W x H" data-bind="dimensions">
+					</div>
+					<div class="field" style="margin-top: 25px;">
+						<button class="ui blue button">Create</button>
+						<button class="ui red button">Reset</button>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+		</form>
 
 <!--
 		Reference: <span data-bind="ship_reference"></span><br/>
@@ -31,7 +193,7 @@
 -->
 	</div>
 
-	<div id="tag" class="ui bottom left attached label"></div>
+	<div id="tag" class="ui top left attached label"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
@@ -63,7 +225,7 @@ var app={
 			"con_country":"",
 			"con_email":"",
 			"con_tax_id":"",
-			"contents":"",
+			"contents":"DOC",
 			"description":"",
 			"pieces":"",
 			"packaging":"P",
@@ -72,11 +234,21 @@ var app={
 			"value":"",
 			"service":"ST",
 			"bill_to":"P",
-			"dimensions":""
+			"dimensions":"",
+			"dimensions_qualifier": "inch"
 	})
 };
 function init(){
 	$( "#tag" ).text( app.id );
+	$( ".blue.button" ).click( function( e ){
+		e.preventDefault();
+		console.log( app.input );
+		console.log( "blue click");
+	});
+	$( ".red.button" ).click( function( e ){
+		e.preventDefault();
+		console.log( "red click");
+	});
 }
 $(function(){
 	init();
