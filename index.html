@@ -171,7 +171,7 @@
 				</div>
 				<div class="two fields">
 					<div class="field">
-						<label>Dimmensions</label>
+						<label>Dimensions</label>
 						<input type="text" placeholder="L x W x H" id="dimensions" data-bind="dimensions">
 					</div>
 					<div class="field" style="margin-top: 25px;">
@@ -314,6 +314,15 @@ function setupFormValidations(){
 		}
 		return !result;
 	};
+	$.fn.form.settings.rules.dim_check = function( value ) {
+		var result = false;
+		if( '' !== value.trim() ){
+			var regexp = /\d{1,} *x *\d{1,} *x *\d{1,}/i;
+			var res = value.match( regexp );
+			result = res == null;
+		}
+		return !result;
+	};
 
 	$( '.ui.form' ).form({ on: 'blur', inline: true,
     fields: {
@@ -402,6 +411,37 @@ function setupFormValidations(){
 						prompt : '{name} should be the ISO two letter country code'
 					}]
 			},
+			description: {
+					identifier: 'description',
+					rules: [{
+						type   : 'empty'
+					}]
+			},
+			weight: {
+					identifier: 'weight',
+					rules: [{
+						type   : 'number'
+					}]
+			},
+			value: {
+					identifier: 'value',
+					rules: [{
+						type   : 'number'
+					}]
+			},
+			pieces: {
+					identifier: 'pieces',
+					rules: [{
+						type   : 'integer'
+					}]
+			},
+			dimensions: {
+					identifier: 'dimensions',
+					rules: [{
+						type   : 'dim_check',
+						prompt : 'Please ensure the input matches L x W x H'
+					}]
+			}
     }
   });
 }
