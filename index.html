@@ -14,49 +14,49 @@
 				<div class="two fields">
 					<div class="field">
 						<label>Account</label>
-						<input type="text" placeholder="Account Number" data-bind="ship_account">
+						<input type="text" placeholder="Account Number" id="ship_account" data-bind="ship_account">
 					</div>
 					<div class="field">
 						<label>Reference</label>
-						<input type="text" placeholder="Reference" data-bind="ship_reference">
+						<input type="text" placeholder="Reference" id="ship_reference" data-bind="ship_reference">
 					</div>
 				</div>
 				<div class="two fields">
 					<div class="field">
 						<label>Name</label>
-						<input type="text" placeholder="Shipper Name" data-bind="ship_name">
+						<input type="text" placeholder="Shipper Name" id="ship_name" data-bind="ship_name">
 					</div>
 					<div class="field">
 						<label>Company</label>
-						<input type="text" placeholder="Company Name" data-bind="ship_company_name">
+						<input type="text" placeholder="Company Name" id="ship_company_name" data-bind="ship_company_name">
 					</div>
 				</div>
 				<div class="field">
 						<label>Address</label>
-					<input type="text" placeholder="Shipper Address" data-bind="ship_address">
+					<input type="text" placeholder="Shipper Address" id="ship_address" data-bind="ship_address">
 				</div>
 				<div class="three fields">
 					<div class="field">
 						<label>City</label>
-						<input type="text" placeholder="Shipper City" data-bind="ship_city">
+						<input type="text" placeholder="Shipper City" id="ship_city" data-bind="ship_city">
 					</div>
 					<div class="field">
 						<label>State</label>
-						<input type="text" placeholder="Company State" data-bind="ship_state">
+						<input type="text" placeholder="Company State" id="ship_state" data-bind="ship_state">
 					</div>
 					<div class="field">
 						<label>Postal Code</label>
-						<input type="text" placeholder="Postal Code" data-bind="ship_zip">
+						<input type="text" placeholder="Postal Code" id="ship_zip" data-bind="ship_zip">
 					</div>
 				</div>
 				<div class="two fields">
 					<div class="field">
 						<label>Country Code</label>
-						<input type="text" placeholder="Shipper Country Code" data-bind="ship_country">
+						<input type="text" placeholder="Shipper Country Code" id="ship_country" data-bind="ship_country">
 					</div>
 					<div class="field">
 						<label>Phone</label>
-						<input type="text" placeholder="Shipper Telephone" data-bind="ship_phone">
+						<input type="text" placeholder="Shipper Telephone" id="ship_phone" data-bind="ship_phone">
 					</div>
 				</div>
 			</div>
@@ -66,39 +66,39 @@
 				<div class="two fields">
 					<div class="field">
 						<label>Name</label>
-						<input type="text" placeholder="Consignee Name" data-bind="con_name">
+						<input type="text" placeholder="Consignee Name" id="con_name" data-bind="con_name">
 					</div>
 					<div class="field">
 						<label>Company</label>
-						<input type="text" placeholder="Company Name" data-bind="con_company_name">
+						<input type="text" placeholder="Company Name" id="con_company_name" data-bind="con_company_name">
 					</div>
 				</div>
 				<div class="field">
 						<label>Address</label>
-					<input type="text" placeholder="Consignee Address" data-bind="con_address">
+					<input type="text" placeholder="Consignee Address" id="con_address" data-bind="con_address">
 				</div>
 				<div class="three fields">
 					<div class="field">
 						<label>City</label>
-						<input type="text" placeholder="Consignee City" data-bind="con_city">
+						<input type="text" placeholder="Consignee City" id="con_city" data-bind="con_city">
 					</div>
 					<div class="field">
 						<label>State</label>
-						<input type="text" placeholder="Consignee State" data-bind="con_state">
+						<input type="text" placeholder="Consignee State" id="con_state" data-bind="con_state">
 					</div>
 					<div class="field">
 						<label>Postal Code</label>
-						<input type="text" placeholder="Consignee Code" data-bind="con_zip">
+						<input type="text" placeholder="Consignee Code" id="con_zip" data-bind="con_zip">
 					</div>
 				</div>
 				<div class="two fields">
 					<div class="field">
 						<label>Country Code</label>
-						<input type="text" placeholder="Consignee Country Code" data-bind="con_country">
+						<input type="text" placeholder="Consignee Country Code" id="con_country" data-bind="con_country">
 					</div>
 					<div class="field">
 						<label>Phone</label>
-						<input type="text" placeholder="Consignee Telephone" data-bind="con_phone">
+						<input type="text" placeholder="Consignee Telephone" id="con_phone" data-bind="con_phone">
 					</div>
 				</div>
 			</div>
@@ -107,12 +107,12 @@
 				<h4 class="ui dividing header">Shipment Information</h4>
 				<div class="field">
 					<label>Description</label>
-					<input type="text" placeholder="Description" data-bind="description">
+					<input type="text" placeholder="Description" id="description" data-bind="description">
 				</div>
 				<div class="two fields">
 					<div class="field">
 						<label>Weight</label>
-						<input type="text" placeholder="Weight" data-bind="weight">
+						<input type="text" placeholder="Weight" id="weight" data-bind="weight">
 					</div>
 					<div class="field">
 						<label>Weight Unit</label>
@@ -125,11 +125,11 @@
 				<div class="two fields">
 					<div class="field">
 						<label>Pieces</label>
-						<input type="text" placeholder="Pieces" data-bind="pieces">
+						<input type="text" placeholder="Pieces" id="pieces" data-bind="pieces">
 					</div>
 					<div class="field">
 						<label>Value $</label>
-						<input type="text" placeholder="Value" data-bind="value">
+						<input type="text" placeholder="Value" id="value" data-bind="value">
 					</div>
 				</div>
 				<div class="two fields">
@@ -172,13 +172,14 @@
 				<div class="two fields">
 					<div class="field">
 						<label>Dimmensions</label>
-						<input type="text" placeholder="L x W x H" data-bind="dimensions">
+						<input type="text" placeholder="L x W x H" id="dimensions" data-bind="dimensions">
 					</div>
 					<div class="field" style="margin-top: 25px;">
 						<button class="ui blue button">Create</button>
 						<button class="ui red button">Reset</button>
 					</div>
 				</div>
+				<div class="ui error message"></div>
 			</div>
 
 
@@ -236,7 +237,8 @@ var app={
 			"service":"ST",
 			"bill_to":"P",
 			"dimensions_qualifier": "inch"
-	})
+	}),
+	zip_countries: [ 'US', 'CA' ]
 };
 
 function reset(){
@@ -252,6 +254,7 @@ function reset(){
 	app.input.service = "ST";
 	app.input.bill_to = "P";
 	app.input.dimensions_qualifier = "inch";
+	$( '.ui.form' ).form( 'reset' );
 }
 
 function toServiceJSON(){
@@ -299,20 +302,130 @@ function toServiceJSON(){
 	return billData;
 
 }
+function setupFormValidations(){
+	//custom
+	$.fn.form.settings.rules.requires_stzip = function( value, input ) {
+		var result = false;
+		var v = input == 0 ? app.input.con_country : app.input.ship_country;
+		if( app.zip_countries.includes( v ) ){
+			if( '' === value.trim() ){
+				result = true;
+			}
+		}
+		return !result;
+	};
 
+	$( '.ui.form' ).form({ on: 'blur', inline: true,
+    fields: {
+			ship_account: {
+					identifier: 'ship_account',
+        	rules: [{
+          	type   : 'regExp[/^\\d{4}$/]',
+          	prompt : 'Account must be 4 numeric digits'
+          }]
+      },
+			ship_name: {
+					identifier: 'ship_name',
+					rules: [{
+						type   : 'empty'
+					}]
+			},
+			ship_address: {
+					identifier: 'ship_address',
+					rules: [{
+						type   : 'empty'
+					}]
+			},
+			ship_city: {
+					identifier: 'ship_city',
+					rules: [{
+						type   : 'empty'
+					}]
+			},
+			ship_state: {
+				identifier: 'ship_state',
+				rules: [{
+					type  	: 'requires_stzip[1]',
+					prompt  :	'A state name is required when shipping from this country'
+				}]
+			},
+			ship_zip: {
+				identifier: 'ship_zip',
+				rules: [{
+					type  	: 'requires_stzip[1]',
+					prompt  :	'A postal code is required when shipping from this country'
+				}]
+			},
+			ship_country: {
+					identifier: 'ship_country',
+					rules: [{
+						type   : 'regExp[/^[a-zA-Z]{2}$/]',
+						prompt : '{name} should be the ISO two letter country code'
+					}]
+			},
+			con_name: {
+					identifier: 'con_name',
+					rules: [{
+						type   : 'empty'
+					}]
+			},
+			con_address: {
+					identifier: 'con_address',
+					rules: [{
+						type   : 'empty'
+					}]
+			},
+			con_city: {
+					identifier: 'con_city',
+					rules: [{
+						type   : 'empty'
+					}]
+			},
+			con_state: {
+				identifier: 'con_state',
+				rules: [{
+					type  	: 'requires_stzip[0]',
+					prompt  :	'A state name is required when shipping to this country'
+				}]
+			},
+			con_zip: {
+				identifier: 'con_zip',
+				rules: [{
+					type  	: 'requires_stzip[0]',
+					prompt  :	'A postal code is required when shipping to this country'
+				}]
+			},
+			con_country: {
+					identifier: 'con_country',
+					rules: [{
+						type   : 'regExp[/^[a-zA-Z]{2}$/]',
+						prompt : '{name} should be the ISO two letter country code'
+					}]
+			},
+    }
+  });
+}
 function init(){
 	$( "#tag" ).text( app.id );
 	$( ".blue.button" ).click( function( e ){
 		e.preventDefault();
-		console.log( toServiceJSON() );
-		console.log( "blue click");
+		$( '.ui.form' ).form( 'validate form' );
+		if( $( '.ui.form' ).form('is valid')) {
+			console.log( toServiceJSON() );
+			console.log( "blue click");
+		}else{
+			$( ".error.message" ).html( "Your form entry is not complete" );
+		}
+
 	});
 	$( ".red.button" ).click( function( e ){
 		e.preventDefault();
 		reset();
 		console.log( toServiceJSON() );
 		console.log( "red click");
+		$( ".error.message" ).empty();
 	});
+	setupFormValidations();
 }
 $(function(){
 	init();
