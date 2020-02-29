@@ -186,9 +186,9 @@
 
 	<div id="tag" class="ui top left attached label"></div>
 
-	<div class="ui fullscreen modal" id="awbmodal">
+	<div class="ui modal" id="awbmodal">
 	<div class="header"></div>
-	<div class="content">
+	<div class="content" id="awbcontent">
 		<div class="ui grid">
 			<div class="row">
 			<div class="twelve wide column">
@@ -225,9 +225,9 @@
 							<td data-bind="ship_address">
 						</tr>
 						<tr>
-							<td data-bind="ship_city"></td>
-							<td data-bind="ship_state"></td>
-							<td data-bind="ship_zip"></td>
+							<td><span data-bind="ship_city"></span>
+							<span data-bind="ship_state"></span>
+							<span data-bind="ship_zip"></span></td>
 						</tr>
 						<tr>
 							<td data-bind="ship_country"></td>
@@ -235,6 +235,7 @@
 						</tr>
 					</table>
 				</div>
+				<div class="ui divider"></div>
 				<div class="row">
 					<h3 class="ui dividing header">Consignee Information</h3>
 					<table>
@@ -246,28 +247,26 @@
 							<td data-bind="con_address">
 						</tr>
 						<tr>
-							<td data-bind="con_city"></td>
-							<td data-bind="con_state"></td>
-							<td data-bind="con_zip"></td>
+							<td><span data-bind="con_city"></span>
+							<span data-bind="con_state"></span>
+							<span data-bind="con_zip"></span></td>
 						</tr>
 						<tr>
-							<td><h4 class="ui header" data-bind="con_country"></h4></td>
+							<td><h2 class="ui header" data-bind="con_country"></h2></td>
 							<td data-bind="con_phone"></td>
 						</tr>
 						<tr>
 							<td data-bind="con_email"></td>
 						</tr>
-
 					</table>
+					<div>
+						<p>Created: <span id="created_dt"></span></p>
+					</div>
 				</div>
 
 				</div>
 			  <div class="four wide column">
 					<table>
-						<tr>
-							<td>Created: </td>
-							<td id="created_dt"></td>
-						</tr>
 						<tr>
 							<td>Track: </td>
 							<td data-bind="tracking"></td>
@@ -580,13 +579,28 @@ function getDateString(){
 function fnum( input ){
         return ( "0" + input ).slice( -2 );
 }
+function printAirwaybills( id, count ){
+	var mywindow = window.open('', 'airbill div', 'height=400,width=600');
+	mywindow.document.write('<html><head><title>Airwaybill</title><link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet"><style>html{ font-size: .7rem; }.important.text { font-size: 1.1rem; font-weight: bold;}.veryimportant.text { font-size: 1.6rem; font-weight: bold;}@media all {.page-break{ display: none; } }@media print {.page-break{ display: block; page-break-before: always; }}</style></head><body onload="window.print()">');
+	var crnt = 0;
+	for( var i = 0; i < count; i++){
+		crnt = i +1;
+		mywindow.document.write("<h1 class='ui centered header'>"+crnt + " of " + count +"</h1>");
+		mywindow.document.write( $( id ).html() );
+		mywindow.document.write( "<div class='page-break'></div>" );
+	}
+	mywindow.document.write('</body></html>');
+	mywindow.document.close(); // necessary for IE >= 10
+	mywindow.focus(); // necessary for IE >= 10
+	setTimeout(function(){mywindow.close();}, 2000);
+}
 function init(){
 	$( "#tag" ).text( app.id );
 	$( ".blue.button" ).click( function( e ){
 		e.preventDefault();
 		$( '.ui.form' ).form( 'validate form' );
 		if( $( '.ui.form' ).form('is valid')) {
-			$( ".fullscreen.modal" ).modal( 'show' );
+			$( ".modal" ).modal( 'show' );
 			console.log( toServiceJSON() );
 			console.log( "blue click");
 		}else{
@@ -602,20 +616,21 @@ function init(){
 		$( ".error.message" ).empty();
 	});
 	setupFormValidations();
-	$( ".fullscreen.modal" ).modal({
-    closable  : false,
-		onShow		: function(){
+	$( ".modal" ).modal({
+    closable: false,
+		onShow: function(){
 			$( "#main_logo" ).attr( "src", app.logo );
 			$( "#address" ).html( app.address );
 			$( "#website" ).html( app.website );
 			$( "#company_header" ).html( app.company_header );
 			$( "#created_dt" ).html( getDateString() );
+			$( "#awbmodal > .header" ).html( "Track Number " + app.input.tracking );
 		},
-    onDeny    : function(){
+    onDeny: function(){
 			$( ".red.button" ).click();
     },
-    onApprove : function() {
-      console.log( "printdiv" );
+    onApprove: function() {
+      printAirwaybills( "#awbcontent", app.input.pieces );
 			return false;
     }
   });
