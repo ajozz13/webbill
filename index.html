@@ -8,7 +8,9 @@
 
 <body>
 	<div class="ui container">
-		<form class="ui form">
+		<div class="ui grid">
+			<div class="twelve wide column">
+				<form class="ui form">
 			<div class="ui segment">
 				<h4 class="ui dividing header">Shipper Information</h4>
 				<div class="two fields">
@@ -182,6 +184,14 @@
 				<div class="ui error message"></div>
 			</div>
 		</form>
+			</div>
+			<div class="four wide column">
+				<h4 class="ui dividing header">Resources</h4>
+				<div class="ui list">
+					<div class="item"><a href="https://www.ibcinc.com/tools/address" target="_blank">IBC US Address tools</a></div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<div id="tag" class="ui top left attached label"></div>
@@ -452,7 +462,7 @@ function setupFormValidations(){
 	};
 
 	$( '.ui.form' ).form({ on: 'blur', inline: true,
-    fields: {
+		fields: {
 			ship_account: {
 					identifier: 'ship_account',
         	rules: [{
