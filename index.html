@@ -175,6 +175,7 @@
 					<div class="field">
 						<label>Dimensions</label>
 						<input type="text" placeholder="L x W x H" id="dimensions" data-bind="dimensions">
+						<div data-bind="vol_weight"></div>
 					</div>
 					<div class="field" style="margin-top: 25px;">
 						<button class="ui blue button">Create</button>
@@ -194,7 +195,7 @@
 		</div>
 	</div>
 
-	<div id="tag" class="ui top left attached label"></div>
+	<div id="tag" class="ui bottom right attached label"></div>
 
 	<div class="ui modal" id="awbmodal">
 	<div class="header"></div>
@@ -314,6 +315,10 @@
 							<td data-bind="dimensions"></td>
 						</tr>
 						<tr>
+							<td>Vol. Weight: </td>
+							<td data-bind="vol_weight"></td>
+						</tr>
+						<tr>
 							<td>Description: </td>
 						</tr>
 						<tr>
@@ -367,17 +372,25 @@ var app={
 			"description":"",
 			"pieces":"",
 			"dimensions":"",
-			"contents":"DOC",
-			"packaging":"P",
-			"weight_qualifier":"lbs",
-			"service":"ST",
-			"bill_to":"P",
-			"dimensions_qualifier": "inch",
-			"tracking":""
+			"contents":"",
+			"packaging":"",
+			"weight_qualifier":"",
+			"service":"",
+			"bill_to":"",
+			"dimensions_qualifier": "",
+			"tracking":"",
+			"vol_weight":""
 	}),
 	zip_countries: [ 'US', 'CA' ]
 };
-
+function setDefaults(){
+	app.input.contents = "DOC";
+	app.input.packaging = "P";
+	app.input.weight_qualifier = "lbs";
+	app.input.service = "ST";
+	app.input.bill_to = "P";
+	app.input.dimensions_qualifier = "inch";
+}
 function reset(){
 	const keys = Object.keys( app.input );
 	for (var property in app.input) {
@@ -385,15 +398,26 @@ function reset(){
 			app.input[ property ] = "";
 	  }
 	}
-	app.input.contents = "DOC";
-	app.input.packaging = "P";
-	app.input.weight_qualifier = "lbs";
-	app.input.service = "ST";
-	app.input.bill_to = "P";
-	app.input.dimensions_qualifier = "inch";
+  setDefaults();
 	$( '.ui.form' ).form( 'reset' );
 }
+function calculateVolumetricWeight(){
+	var input = app.input.dimensions;
+	if( input.match( /\d{1,} *x *\d{1,} *x *\d{1,}/i ) != null ){
+		var values = input.toLowerCase().split( "x" );
+		if( values.length === 3 ){
+			var inch_table = [139, 139]; //int - domestic
+			var cm_table = [5000, 5000]; //int - domestic
+			var is_domestic = app.input.con_country === "US" ? true : false;
+			var index = is_domestic ? 1 : 0;
+			var divisor = app.input.dimensions_qualifier === "cm" ? cm_table[ index ] : inch_table[ index ];
+			var msr = app.input.dimensions_qualifier === "cm" ? "Kgs." : "Lbs.";
 
+			var calc_val = Math.ceil( ( values[ 0 ] * values[ 1 ] * values[ 2 ] / divisor ).toFixed(2) );
+			app.input.vol_weight = calc_val + " "+ msr;
+		}
+	}
+}
 function toServiceJSON(){
 	var billData = {
 		"shipper": {
@@ -605,6 +629,7 @@ function printAirwaybills( id, count ){
 	setTimeout(function(){mywindow.close();}, 2000);
 }
 function init(){
+	setDefaults();
 	$( "#tag" ).text( app.id );
 	$( ".blue.button" ).click( function( e ){
 		e.preventDefault();
@@ -618,6 +643,11 @@ function init(){
 		}
 
 	});
+	//Textfield blur
+	$( "#dimensions" ).blur(function() {
+		calculateVolumetricWeight();
+	});
+
 	$( ".red.button" ).click( function( e ){
 		e.preventDefault();
 		reset();
