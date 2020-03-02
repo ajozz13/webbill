@@ -54,7 +54,13 @@
 				<div class="two fields">
 					<div class="field">
 						<label>Country Code</label>
-						<input type="text" placeholder="Shipper Country Code" id="ship_country" data-bind="ship_country">
+						<!--<input type="text" placeholder="Shipper Country Code" id="ship_country" data-bind="ship_country">-->
+						<div class="ui fluid search selection dropdown country_search">
+							<input type="hidden" name="ship_country" id="ship_country" data-bind="ship_country">
+							<i class="dropdown icon"></i>
+							<div class="default text">Select Country</div>
+							<div class="menu"></div>
+						</div>
 					</div>
 					<div class="field">
 						<label>Phone</label>
@@ -96,7 +102,13 @@
 				<div class="two fields">
 					<div class="field">
 						<label>Country Code</label>
-						<input type="text" placeholder="Consignee Country Code" id="con_country" data-bind="con_country">
+						<!--<input type="text" placeholder="Consignee Country Code" id="con_country" data-bind="con_country">-->
+						<div class="ui fluid search selection dropdown country_search">
+							<input type="hidden" name="con_country" id="con_country" data-bind="con_country">
+							<i class="dropdown icon"></i>
+							<div class="default text">Select Country</div>
+							<div class="menu"></div>
+						</div>
 					</div>
 					<div class="field">
 						<label>Phone</label>
@@ -628,8 +640,24 @@ function printAirwaybills( id, count ){
 	mywindow.focus(); // necessary for IE >= 10
 	setTimeout(function(){mywindow.close();}, 2000);
 }
+function setCountryCodeSelect(){
+	//Country code selects..
+	$.getJSON( "https://cdn2.hubspot.net/hubfs/518742/compose/db/country-code.json", function( data ) {
+		$( ".country_search" ).each(function(){
+		 var selector = $( this ).find( ".menu" );
+		 $.each( data, function( key ) {
+			 var country = data[ key ];
+			 selector.append(
+				 $( "<div/>", { class: "item", "data-value": country.Code } ).append( $("<i/>",{ class: country.Code.toLowerCase()+" flag" }) ).append( country.Name )
+			 );
+		 });
+		 $(this).dropdown({ clearable: true });
+		});
+	});
+}
 function init(){
 	setDefaults();
+	setCountryCodeSelect();
 	$( "#tag" ).text( app.id );
 	$( ".blue.button" ).click( function( e ){
 		e.preventDefault();
