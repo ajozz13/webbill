@@ -55,7 +55,7 @@
 					<div class="field">
 						<label>Country Code</label>
 						<!--<input type="text" placeholder="Shipper Country Code" id="ship_country" data-bind="ship_country">-->
-						<div class="ui fluid search selection dropdown country_search">
+						<div class="ui fluid search selection dropdown country_search" binds="ship_country_name">
 							<input type="hidden" name="ship_country" id="ship_country" data-bind="ship_country">
 							<i class="dropdown icon"></i>
 							<div class="default text">Select Country</div>
@@ -103,7 +103,7 @@
 					<div class="field">
 						<label>Country Code</label>
 						<!--<input type="text" placeholder="Consignee Country Code" id="con_country" data-bind="con_country">-->
-						<div class="ui fluid search selection dropdown country_search">
+						<div class="ui fluid search selection dropdown country_search" binds="con_country_name">
 							<input type="hidden" name="con_country" id="con_country" data-bind="con_country">
 							<i class="dropdown icon"></i>
 							<div class="default text">Select Country</div>
@@ -253,7 +253,7 @@
 							<span data-bind="ship_zip"></span></td>
 						</tr>
 						<tr>
-							<td data-bind="ship_country"></td>
+							<td><span data-bind="ship_country"></span> - <span data-bind="ship_country_name"></span></td>
 							<td data-bind="ship_phone"></td>
 						</tr>
 					</table>
@@ -275,7 +275,7 @@
 							<span data-bind="con_zip"></span></td>
 						</tr>
 						<tr>
-							<td><h2 class="ui header" data-bind="con_country"></h2></td>
+							<td><span class="ui header" data-bind="con_country"></span> - <span data-bind="con_country_name"></span></td>
 							<td data-bind="con_phone"></td>
 						</tr>
 						<tr>
@@ -367,6 +367,7 @@ var app={
 			"ship_state":"",
 			"ship_zip":"",
 			"ship_country":"",
+			"ship_country_name":"",
 			"ship_account":"",
 			"ship_reference":"",
 			"con_name":"",
@@ -377,6 +378,7 @@ var app={
 			"con_state":"",
 			"con_zip":"",
 			"con_country":"",
+			"con_country_name":"",
 			"con_email":"",
 			"con_tax_id":"",
 			"weight":"",
@@ -644,14 +646,22 @@ function setCountryCodeSelect(){
 	//Country code selects..
 	$.getJSON( "https://cdn2.hubspot.net/hubfs/518742/compose/db/country-code.json", function( data ) {
 		$( ".country_search" ).each(function(){
-		 var selector = $( this ).find( ".menu" );
-		 $.each( data, function( key ) {
-			 var country = data[ key ];
-			 selector.append(
-				 $( "<div/>", { class: "item", "data-value": country.Code } ).append( $("<i/>",{ class: country.Code.toLowerCase()+" flag" }) ).append( country.Name )
-			 );
-		 });
-		 $(this).dropdown({ clearable: true });
+			var dd = $(this);
+			var selector = $( this ).find( ".menu" );
+	 		$.each( data, function( key ) {
+				var country = data[ key ];
+	 			selector.append(
+					$( "<div/>", { class: "item", "data-value": country.Code } ).append( $("<i/>",{ class: country.Code.toLowerCase()+" flag" }) ).append( country.Name )
+	 			);
+			});
+
+			$(this).dropdown({ clearable: true, action: 'activate',  //Do the default and also run my custom.
+				onChange: function(value, text, $selectedItem){
+					if( value !== "" ){
+						app.input[ dd.attr( "binds" ) ] = text;
+					}
+				}
+			});
 		});
 	});
 }
