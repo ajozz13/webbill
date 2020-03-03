@@ -9,9 +9,10 @@ This project uses these frameworks and projects
 
 # Application Features
 
- - Dimensinal Weight calculator
- - Country Dropdown box API loaded
- - Form validation in inline
+ - Dimensional Weight calculator
+ - Country Dropdown boxes are API loaded
+ - Form validation completed inline with custom validators
+ - Full integration with IBC APIs to generate barcode and send Airwaybill details
 
 For more information regarding this application, please contact me mailto:ajozz13@gmail.com
 
