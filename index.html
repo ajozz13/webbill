@@ -124,6 +124,19 @@
 				</div>
 				<div class="two fields">
 					<div class="field">
+						<label>Type</label>
+						<select class="ui dropdown" id="contents" data-bind="contents">
+							<option value="DOC">Documents</option>
+							<option value="APX">Dutiable</option>
+						</select>
+					</div>
+					<div class="field">
+						<label>Value $</label>
+						<input type="text" placeholder="Value" id="value" data-bind="value">
+					</div>
+				</div>
+				<div class="two fields">
+					<div class="field">
 						<label>Weight</label>
 						<input type="text" placeholder="Weight" id="weight" data-bind="weight">
 					</div>
@@ -139,19 +152,6 @@
 					<div class="field">
 						<label>Pieces</label>
 						<input type="text" placeholder="Pieces" id="pieces" data-bind="pieces">
-					</div>
-					<div class="field">
-						<label>Value $</label>
-						<input type="text" placeholder="Value" id="value" data-bind="value">
-					</div>
-				</div>
-				<div class="two fields">
-					<div class="field">
-						<label>Type</label>
-						<select class="ui dropdown" id="contents" data-bind="contents">
-							<option value="DOC">Documents</option>
-							<option value="APX">Dutiable</option>
-						</select>
 					</div>
 					<div class="field">
 						<label>Packaging</label>
@@ -503,6 +503,23 @@ function setupFormValidations(){
 		}
 		return !result;
 	};
+	$.fn.form.settings.rules.value_check = function( value ) {
+		var result = false;
+		if( '' !== value.trim() ){
+			var regexp = /^\d+\.?\d{0,2}$/;
+			var res = value.match( regexp );
+			if( res != null ){
+				if( app.input.contents === 'DOC' ){
+					result = value >= 2;
+				}
+			}else{
+				result = true;
+			}
+		}else{
+			result = true;
+		}
+		return !result;
+	};
 
 	$( '.ui.form' ).form({ on: 'blur', inline: true,
 		fields: {
@@ -606,7 +623,8 @@ function setupFormValidations(){
 			value: {
 					identifier: 'value',
 					rules: [{
-						type   : 'number'
+						type   : 'value_check',
+						prompt : 'Value for DOC should be 0 or 1, for APX use the valid decimal'
 					}]
 			},
 			pieces: {
