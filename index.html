@@ -11,7 +11,8 @@
 		<div id="tag" class="ui top right attached label"></div>
 		<div class="ui grid">
 			<div class="twelve wide column">
-				<form class="ui form">
+			<h1 class="ui header company"></h1>
+			<form class="ui form">
 			<div class="ui segment">
 				<h4 class="ui dividing header">Shipper Information</h4>
 				<div class="two fields">
@@ -221,10 +222,11 @@
 			<div class="twelve wide column">
 				<table>
 					<tr>
-						<td><img id="main_logo" /></td>
+						<td><img class="ui small image" id="main_logo" /></td>
 						<td>
 							<h2 class="ui header" id="company_header"></h2>
-							<p><span id="address"></span>&nbsp; | &nbsp;<span id="website"></span></p>
+							<p><span id="address"></span>&nbsp;|&nbsp;<span id="website"></span></p>
+							<p><span id="phone"></span></p>
 						</td>
 					</tr>
 				</table>
@@ -362,6 +364,7 @@ var app={
 	address: "8801 West Chester Drive, Homestead FL 33035",
 	website: "http://www.ochoanet.com",
 	company_header: "Ochoanet.com",
+	company_phone: "305-555-5555",
 	input: $.bindings({
 			"ship_name":"",
 			"ship_company_name":"",
@@ -715,6 +718,7 @@ function showError( msg, err ){
 }
 function init(){
 	$( "#year" ).text( new Date().getFullYear() );
+	$( ".header.company" ).html( app.company_header );
 	setDefaults();
 	setCountryCodeSelect();
 	$( "#tag" ).text( app.id );
@@ -772,6 +776,7 @@ function init(){
 			$( "#main_logo" ).attr( "src", app.logo );
 			$( "#address" ).html( app.address );
 			$( "#website" ).html( app.website );
+			$( "#phone" ).html( app.company_phone );
 			$( "#company_header" ).html( app.company_header );
 			$( "#created_dt" ).html( getDateString() );
 			$( "#awbmodal > .header" ).html( "Track Number " + app.input.tracking );
