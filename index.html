@@ -9,6 +9,7 @@
 <body>
 	<div class="ui container">
 		<div id="tag" class="ui top right attached label"></div>
+		<div class="ui top left attached"><img class="ui small image logo" /></div>
 		<div class="ui grid">
 			<div class="twelve wide column">
 			<h1 class="ui header company"></h1>
@@ -719,6 +720,7 @@ function showError( msg, err ){
 function init(){
 	$( "#year" ).text( new Date().getFullYear() );
 	$( ".header.company" ).html( app.company_header );
+	$( ".image.logo" ).attr( 'src', app.logo );
 	setDefaults();
 	setCountryCodeSelect();
 	$( "#tag" ).text( app.id );
