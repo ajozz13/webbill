@@ -8,6 +8,7 @@
 
 <body>
 	<div class="ui container">
+		<div id="tag" class="ui top right attached label"></div>
 		<div class="ui grid">
 			<div class="twelve wide column">
 				<form class="ui form">
@@ -54,7 +55,6 @@
 				<div class="two fields">
 					<div class="field">
 						<label>Country Code</label>
-						<!--<input type="text" placeholder="Shipper Country Code" id="ship_country" data-bind="ship_country">-->
 						<div class="ui fluid search selection dropdown country_search" binds="ship_country_name">
 							<input type="hidden" name="ship_country" id="ship_country" data-bind="ship_country">
 							<i class="dropdown icon"></i>
@@ -102,7 +102,6 @@
 				<div class="two fields">
 					<div class="field">
 						<label>Country Code</label>
-						<!--<input type="text" placeholder="Consignee Country Code" id="con_country" data-bind="con_country">-->
 						<div class="ui fluid search selection dropdown country_search" binds="con_country_name">
 							<input type="hidden" name="con_country" id="con_country" data-bind="con_country">
 							<i class="dropdown icon"></i>
@@ -197,6 +196,7 @@
 				<div class="ui error message"></div>
 			</div>
 		</form>
+			<div class="formmsg transition hidden"></div>
 			</div>
 			<div class="four wide column">
 				<h4 class="ui dividing header">Resources</h4>
@@ -207,7 +207,11 @@
 		</div>
 	</div>
 
-	<div id="tag" class="ui bottom right attached label"></div>
+	<div class="ui vertical footer segment">
+			<div class="ui text container">
+				<h3 class="ui centered header">&#169; <span id="year"></span> Ochoanet.com - All rights reserved.</h3>
+			</div>
+	</div>
 
 	<div class="ui modal" id="awbmodal">
 	<div class="header"></div>
@@ -226,8 +230,8 @@
 				</table>
 			</div>
 			<div class="four wide column">
-				<p>TRACK_NUMBER</p>
-				<p data-bind="tracking"></p>
+				<img class="ui image" id="barcode_image">
+				<p data-bind="tracking" style="margin-left: 35px;"></p>
 			</div>
 			</div>
 
@@ -393,7 +397,8 @@ var app={
 			"bill_to":"",
 			"dimensions_qualifier": "",
 			"tracking":"",
-			"vol_weight":""
+			"vol_weight":"",
+			"barcode_data":""
 	}),
 	zip_countries: [ 'US', 'CA' ]
 };
@@ -665,7 +670,33 @@ function setCountryCodeSelect(){
 		});
 	});
 }
+function generateBarcodeData( trk ){
+	var url = "https://api.pactrak.com/barcode/servlet/BCGenerator?data_url=t&width=1&billNum=";
+	var rurl = url+trk;
+
+	return new Promise( function( resolve, reject ){
+
+	        $.get( rurl, function( data ) {
+	                resolve( data );
+	        }).fail(function( xhr, status, error ) {
+	                var d = JSON.stringify( xhr );
+	                //console.log( d );
+	                reject( d );
+	        }).always(function() {
+	                console.log( "Barcode Generated." );
+	        });
+	});
+}
+function showError( msg, err ){
+	console.log( msg );
+	console.log( err );
+	$( ".formmsg" ).html( msg+"<br/>"+ err.message + "<br/>" + err.developerMessage.replace( "\n", "<br/>") );
+	if( !$(".formmsg").hasClass( "visible" ) ){
+		$( ".formmsg" ).addClass( "ui error message" ).transition( "scale" );
+	}
+}
 function init(){
+	$( "#year" ).text( new Date().getFullYear() );
 	setDefaults();
 	setCountryCodeSelect();
 	$( "#tag" ).text( app.id );
@@ -673,9 +704,29 @@ function init(){
 		e.preventDefault();
 		$( '.ui.form' ).form( 'validate form' );
 		if( $( '.ui.form' ).form('is valid')) {
-			$( ".modal" ).modal( 'show' );
-			console.log( toServiceJSON() );
-			console.log( "blue click");
+
+			$.ajax({
+				type: "POST",
+				url: "https://api.pactrak.com/ibcairbill/production",
+				data: JSON.stringify( toServiceJSON() ),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json"
+			}).done(function(data){
+				console.log( data );
+				app.input.tracking = data.trackingNumber;
+				generateBarcodeData( data.trackingNumber ).then( function( data ){
+					app.input.barcode_data = data;
+					$( "#barcode_image" ).attr( "src" , app.input.barcode_data );
+					$( ".modal" ).modal( 'show' );
+				}).catch(function( e ){
+					showError( "Issue generating your track number", e );
+				});
+			}).fail(function(x, t, e) {
+				console.log( x );
+				showError( "There was an issue generating your Airwaybill", x.responseJSON );
+  		}).always(function() {
+    		console.log( "Airwaybill cycle completed" );
+  		});
 		}else{
 			$( ".error.message" ).html( "Your form entry is not complete" );
 		}
@@ -689,9 +740,12 @@ function init(){
 	$( ".red.button" ).click( function( e ){
 		e.preventDefault();
 		reset();
-		console.log( toServiceJSON() );
-		console.log( "red click");
 		$( ".error.message" ).empty();
+		if( $(".formmsg").hasClass( "visible" ) ){
+			$( ".formmsg" ).transition( "scale", 500, function(){
+				$(this).removeClass( "ui error message" ).empty();
+			});
+		}
 	});
 	setupFormValidations();
 	$( ".modal" ).modal({
