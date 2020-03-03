@@ -225,7 +225,7 @@
 					<tr>
 						<td><img class="ui small image logo" /></td>
 						<td>
-							<h2 class="ui header" id="company_header"></h2>
+							<h2 class="ui header company"></h2>
 							<p><span id="address"></span>&nbsp;|&nbsp;<span id="website"></span></p>
 							<p><span id="phone"></span></p>
 						</td>
@@ -719,6 +719,9 @@ function showError( msg, err ){
 }
 function init(){
 	$( "#year" ).text( new Date().getFullYear() );
+	$( "#address" ).html( app.address );
+	$( "#website" ).html( app.website );
+	$( "#phone" ).html( app.company_phone );
 	$( ".header.company" ).html( app.company_header );
 	$( ".image.logo" ).attr( 'src', app.logo );
 	setDefaults();
@@ -780,10 +783,6 @@ function init(){
 	$( ".modal" ).modal({
     closable: false,
 		onShow: function(){
-			$( "#address" ).html( app.address );
-			$( "#website" ).html( app.website );
-			$( "#phone" ).html( app.company_phone );
-			$( "#company_header" ).html( app.company_header );
 			$( "#created_dt" ).html( getDateString() );
 			$( "#awbmodal > .header" ).html( "Track Number " + app.input.tracking );
 		},
