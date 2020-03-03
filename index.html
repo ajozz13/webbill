@@ -133,7 +133,7 @@
 					</div>
 					<div class="field">
 						<label>Value $</label>
-						<input type="text" placeholder="Value" id="value" data-bind="value">
+						<input type="text" placeholder="Value" id="value" class="money" data-bind="value">
 					</div>
 				</div>
 				<div class="two fields">
@@ -755,8 +755,13 @@ function init(){
 
 	});
 	//Textfield blur
-	$( "#dimensions" ).blur(function() {
+	$( "#dimensions" ).keyup(function() {
 		calculateVolumetricWeight();
+	});
+	$( ".money" ).blur( function(){
+		var m = $(this).attr( "data-bind" );
+		var v = Number( app.input[m] );
+		app.input[m] = v.toFixed( 2 );
 	});
 
 	$( ".red.button" ).click( function( e ){
