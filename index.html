@@ -223,7 +223,7 @@
 			<div class="twelve wide column">
 				<table>
 					<tr>
-						<td><img class="ui small image" id="main_logo" /></td>
+						<td><img class="ui small image logo" /></td>
 						<td>
 							<h2 class="ui header" id="company_header"></h2>
 							<p><span id="address"></span>&nbsp;|&nbsp;<span id="website"></span></p>
@@ -780,7 +780,6 @@ function init(){
 	$( ".modal" ).modal({
     closable: false,
 		onShow: function(){
-			$( "#main_logo" ).attr( "src", app.logo );
 			$( "#address" ).html( app.address );
 			$( "#website" ).html( app.website );
 			$( "#phone" ).html( app.company_phone );
