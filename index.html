@@ -573,6 +573,12 @@ function setupFormValidations(){
 						prompt : '{name} should be the ISO two letter country code'
 					}]
 			},
+			ship_phone: {
+					identifier: 'ship_phone',
+					rules: [{
+						type   : 'empty'
+					}]
+			},
 			con_name: {
 					identifier: 'con_name',
 					rules: [{
@@ -610,6 +616,12 @@ function setupFormValidations(){
 					rules: [{
 						type   : 'regExp[/^[a-zA-Z]{2}$/]',
 						prompt : '{name} should be the ISO two letter country code'
+					}]
+			},
+			con_phone: {
+					identifier: 'con_phone',
+					rules: [{
+						type   : 'empty'
 					}]
 			},
 			description: {
