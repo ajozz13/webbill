@@ -1,39 +1,5 @@
 # Simple selenium test to generate an Airwaybill
-# requires Selenium and Chromedriver
-require 'selenium-webdriver'
-
-
-$driver_path = "~/apps/chromedriver/bin"
-@driver = nil
-e_code = 0
-
-##Functions
-def dropdown_select_by_value id, select_value_option
-  dropdown = @driver.find_element( :id, id );
-  options = dropdown.find_elements( tag_name: 'option' )
-  options.each { |option| option.click if option.attribute( "value" ).to_s == select_value_option }  #select by value
-  selected_option = options.map { |option| option.text if option.selected? }.join
-end
-
-def dropdown_select_by_text id, select_text_option
-  dropdown = @driver.find_element( :id, id );
-  options = dropdown.find_elements( tag_name: 'option' )
-  options.each { |option| option.click if option.text == select_text_option }  #select by text
-  selected_option = options.map { |option| option.text if option.selected? }.join
-end
-
-#This is a slower more effective way to type than to just find_element.send_keys
-def send_text type, id, send_txt
-  ele = @driver.find_element( type, id )
-  send_txt.scan( /./ ).each { |t|
-    ele.send_keys t
-  }
-end
-
-def click xpath
-  @driver.find_element( :xpath, xpath ).click
-end
-
+require_relative 'globals'
 
 ##MAIN
 begin
@@ -45,8 +11,8 @@ begin
   options = Selenium::WebDriver::Chrome::Options.new
   options.add_argument( '--start-maximized' )
 
-  @driver = Selenium::WebDriver.for :chrome, options: options
-  @driver.navigate.to "file:///data/work/webbill/index.html"
+  $driver = Selenium::WebDriver.for :chrome, options: options
+  $driver.navigate.to "file:///data/work/webbill/index.html"
 
   ##Fill  the form
   send_text :id, 'ship_account', '8040'
@@ -78,16 +44,16 @@ begin
   click "//button[contains(@class, 'green button')]"
   click "//button[contains(@class, 'blue button')]"
   sleep 2
-  puts "AWB Created? #{ @driver.find_element( :id, 'awbmodal' ).displayed? }"
-  puts "AWB# #{ @driver.find_element( :xpath, '//*[@id="awbcontent"]/div/div[1]/div[2]/p' ).text }"
+  puts "AWB Created? #{ $driver.find_element( :id, 'awbmodal' ).displayed? }"
+  puts "AWB# #{ $driver.find_element( :xpath, '//*[@id="awbcontent"]/div/div[1]/div[2]/p' ).text }"
   click "//div[contains(@class, 'cancel button')]"
   sleep 2
 
 rescue Exception => e
   puts "Exception: #{e}"
   puts e.backtrace
-  e_code = 1
+  $e_code = 1
 ensure
   #driver.quit
-  exit e_code
+  exit $e_code
 end
