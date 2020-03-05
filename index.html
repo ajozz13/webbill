@@ -479,6 +479,15 @@ function calculateVolumetricWeight( input, p ){
 		return "";
 	}
 }
+function setupOptionTexts(){
+	app.input.contents = `${ app.input.contents  }-${ getOptionText( 'contents', app.input.contents ) }`;
+	app.input.service = `${ app.input.service  }-${ getOptionText( 'service', app.input.service ) }`;
+	app.input.packaging = `${ app.input.packaging  }-${ getOptionText( 'packaging', app.input.packaging ) }`;
+	app.input.bill_to = `${ app.input.bill_to  }-${ getOptionText( 'bill_to', app.input.bill_to ) }`;
+}
+function getOptionText( name, value ){
+	return $( '#'+ name ).find( 'option[value="'+ value +'"]' ).text();
+}
 function setBillableWeight(){
 	var target = $( ".table.pieces > tbody > tr > td:last" );
 	target.each( function( index, td ) {
@@ -922,6 +931,7 @@ function init(){
 		onShow: function(){
 			$( "#created_dt" ).html( getDateString() );
 			$( "#awbmodal > .header" ).html( "Track Number " + app.input.tracking );
+			setupOptionTexts();
 			$( "#outpiece_table" ).html( $( ".table.pieces" ).html() );
 		},
     onDeny: function(){
