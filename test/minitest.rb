@@ -3,11 +3,7 @@ require_relative 'globals'
 
 describe "I can open a web browser and write?" do
   before do
-    dp = File.expand_path( $driver_path )
-    Selenium::WebDriver::Chrome::Service.driver_path= "#{ dp }/chromedriver"
-    options = Selenium::WebDriver::Chrome::Options.new
-    options.add_argument( '--start-maximized' )
-    $driver = Selenium::WebDriver.for :chrome, options: options
+    init_driver
   end
 
   describe "it can read and write" do

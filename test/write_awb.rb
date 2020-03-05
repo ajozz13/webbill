@@ -3,15 +3,8 @@ require_relative 'globals'
 
 ##MAIN
 begin
-
-  dp = File.expand_path( $driver_path )
-  puts "Driver Path: #{ dp }"
-  Selenium::WebDriver::Chrome::Service.driver_path= "#{ dp }/chromedriver"
-
-  options = Selenium::WebDriver::Chrome::Options.new
-  options.add_argument( '--start-maximized' )
-
-  $driver = Selenium::WebDriver.for :chrome, options: options
+  $dbg = true
+  init_driver
   $driver.navigate.to "file:///data/work/webbill/index.html"
 
   ##Fill  the form
