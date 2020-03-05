@@ -43,7 +43,11 @@ def get_text type, id
 end
 
 def get_input_value type, id
-  $driver.find_element( type, id ).attribute( 'value' )
+  get_attribute type, id, 'value'
+end
+
+def get_attribute type, id, attr
+  $driver.find_element( type, id ).attribute( attr )
 end
 
 def is_displayed type, id
