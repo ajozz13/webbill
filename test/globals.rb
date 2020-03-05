@@ -3,8 +3,19 @@ require 'selenium-webdriver'
 $driver_path = "~/apps/chromedriver/bin"
 $driver = nil
 $e_code = 0
+$dbg = false
 
 ##Functions
+
+def init_driver
+  dp = File.expand_path( $driver_path )
+  puts "Driver Path: #{ dp }" if $dbg
+  Selenium::WebDriver::Chrome::Service.driver_path= "#{ dp }/chromedriver"
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument( '--start-maximized' )
+  $driver = Selenium::WebDriver.for :chrome, options: options
+end
+
 def dropdown_select_by_value id, select_value_option
   dropdown = $driver.find_element( :id, id );
   options = dropdown.find_elements( tag_name: 'option' )
