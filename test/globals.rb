@@ -27,6 +27,18 @@ def send_text type, id, send_txt
   }
 end
 
+def get_text type, id
+  $driver.find_element( type, id ).text
+end
+
+def get_input_value type, id
+  $driver.find_element( type, id ).attribute( 'value' )
+end
+
+def is_displayed type, id
+  $driver.find_element( type, id ).displayed?
+end
+
 def click xpath
   $driver.find_element( :xpath, xpath ).click
 end
