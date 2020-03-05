@@ -139,23 +139,6 @@
 				</div>
 				<div class="two fields">
 					<div class="field">
-						<label>Weight</label>
-						<input type="text" placeholder="Weight" id="weight" data-bind="weight">
-					</div>
-					<div class="field">
-						<label>Weight Unit</label>
-						<select class="ui dropdown" id="weight_qualifier" data-bind="weight_qualifier">
-						  <option value="lbs">Pounds</option>
-						  <option value="kgs">Kilograms</option>
-						</select>
-					</div>
-				</div>
-				<div class="two fields">
-					<div class="field">
-						<label>Pieces</label>
-						<input type="text" placeholder="Pieces" id="pieces" data-bind="pieces">
-					</div>
-					<div class="field">
 						<label>Packaging</label>
 						<select class="ui dropdown" id="packaging" data-bind="packaging">
 							<option value="P">Package</option>
@@ -164,8 +147,6 @@
 							<option value="O">Other</option>
 						</select>
 					</div>
-				</div>
-				<div class="two fields">
 					<div class="field">
 						<label>Service</label>
 						<select class="ui dropdown" id="service" data-bind="service">
@@ -175,6 +156,8 @@
 							<option value="DS">Deferred</option>
 						</select>
 					</div>
+				</div>
+				<div class="two fields">
 					<div class="field">
 						<label>Payment</label>
 						<select class="ui dropdown" id="bill_to" data-bind="bill_to">
@@ -183,13 +166,58 @@
 							<option value="F">Free Domicile</option>
 						</select>
 					</div>
+					<div class="field">
+						<label>Weight Unit</label>
+						<select class="ui dropdown" id="weight_qualifier" data-bind="weight_qualifier">
+							<option value="lbs">Pounds</option>
+							<option value="kgs">Kilograms</option>
+						</select>
+					</div>
+				</div>
+				<div class="field">
+
+
+						<h5 class="ui header">Dimensional Weigth Calculator</h5>
+						<div class="four fields">
+							<div class="field"><label>Pieces:</label> <span data-bind="pieces"></span><input type="hidden" id="pieces" data-bind="pieces"></div>
+							<div class="field"><label>Weight:</label> <span data-bind="weight"></span></div>
+							<!--
+							<div class="field"><label>Vol. Weight:</label> <span data-bind="vol_weight"></span></div>
+							<div class="field"><label>Dec. Weight:</label> <span data-bind="dec_weight"></span></div>
+							-->
+						</div>
+						<div class="ui segment">
+							<div class="four fields">
+							<div class="field">
+							<label>Declared Weight</label>
+							<input type="text" id="dw" placeholder="Declared Weight" id="declared_weight" data-bind="declared_weight">
+							</div>
+							<div class="field">
+							<label>Piece Dimension</label>
+							<input type="text" name="pd" placeholder="Piece Dimension L x W x H" id="piece_dimension" data-bind="piece_dimension">
+							</div>
+							<div class="field">
+							<label>Piece Multiplier</label>
+							<input type="number" name="pm" placeholder="Piece Multiplier" min="1" id="piece_multiplier" data-bind="piece_multiplier">
+							</div>
+							<div class="field">
+							<div style="margin-top: 25px;">
+								<button class="ui circular green button">+</button>
+								<button class="ui circular orange button">-</button>
+							</div>
+							</div>
+
+							</div>
+							<div class="ui segment">
+							<table class="ui very basic celled table pieces"><caption class="ui small header">Piece Detail Table</caption>
+								<thead><tr><th>Pieces</th><th>Declared Weight</th><th>Piece Dimension</th><th>Vol. Weight</th><th>Piece Weight</th></tr></thead>
+								<tbody></tbody>
+							</table>
+							</div>
+					</div>
+
 				</div>
 				<div class="two fields">
-					<div class="field">
-						<label>Dimensions</label>
-						<input type="text" placeholder="L x W x H" id="dimensions" data-bind="dimensions">
-						<div data-bind="vol_weight"></div>
-					</div>
 					<div class="field" style="margin-top: 25px;">
 						<button class="ui blue button">Create</button>
 						<button class="ui red button">Reset</button>
@@ -311,7 +339,7 @@
 						</tr>
 						<tr>
 							<td>Weight: </td>
-							<td data-bind="weight"></td>
+							<td><span data-bind="weight"></span> <span data-bind="weight_qualifier"></span></td>
 						</tr>
 						<tr>
 							<td>Value $ </td>
@@ -330,12 +358,8 @@
 							<td data-bind="bill_to"></td>
 						</tr>
 						<tr>
-							<td>Dimensions: </td>
-							<td data-bind="dimensions"></td>
-						</tr>
-						<tr>
 							<td>Vol. Weight: </td>
-							<td data-bind="vol_weight"></td>
+							<td><span data-bind="vol_weight"></span> <span data-bind="weight_qualifier"></span></td>
 						</tr>
 						<tr>
 							<td>Description: </td>
@@ -345,6 +369,12 @@
 						</tr>
 					</table>
 
+				</div>
+			</div>
+			<div class="row">
+				<div class="sixteen wide column">
+					<table class="ui very basic collapsing celled table" id="outpiece_table">
+					</table>
 				</div>
 			</div>
 		</div>
@@ -389,10 +419,15 @@ var app={
 			"con_country_name":"",
 			"con_email":"",
 			"con_tax_id":"",
-			"weight":"",
 			"value":"",
 			"description":"",
 			"pieces":"",
+			"weight":"",
+			"vol_weight":"",
+			"dec_weight":"",
+			"piece_multiplier":"",
+			"declared_weight":"",
+			"piece_dimension":"",
 			"dimensions":"",
 			"contents":"",
 			"packaging":"",
@@ -401,7 +436,6 @@ var app={
 			"bill_to":"",
 			"dimensions_qualifier": "",
 			"tracking":"",
-			"vol_weight":"",
 			"barcode_data":""
 	}),
 	zip_countries: [ 'US', 'CA' ]
@@ -413,6 +447,11 @@ function setDefaults(){
 	app.input.service = "ST";
 	app.input.bill_to = "P";
 	app.input.dimensions_qualifier = "inch";
+	app.input.pieces = 0,
+	app.input.weight = 0,
+	app.input.vol_weight = 0,
+	app.input.dec_weight = 0,
+	app.input.piece_multiplier = 1
 }
 function reset(){
 	const keys = Object.keys( app.input );
@@ -422,10 +461,11 @@ function reset(){
 	  }
 	}
   setDefaults();
+	$( ".table.pieces" ).empty();
+  $( "#outpiece_table" ).empty();
 	$( '.ui.form' ).form( 'reset' );
 }
-function calculateVolumetricWeight(){
-	var input = app.input.dimensions;
+function calculateVolumetricWeight( input, p ){
 	if( input.match( /\d{1,} *x *\d{1,} *x *\d{1,}/i ) != null ){
 		var values = input.toLowerCase().split( "x" );
 		if( values.length === 3 ){
@@ -436,9 +476,42 @@ function calculateVolumetricWeight(){
 			var divisor = app.input.dimensions_qualifier === "cm" ? cm_table[ index ] : inch_table[ index ];
 			var msr = app.input.dimensions_qualifier === "cm" ? "Kgs." : "Lbs.";
 
-			var calc_val = Math.ceil( ( values[ 0 ] * values[ 1 ] * values[ 2 ] / divisor ).toFixed(2) );
-			app.input.vol_weight = calc_val + " "+ msr;
+			var calc_val = Math.ceil( ( values[ 0 ] * values[ 1 ] * values[ 2 ] / divisor ).toFixed( 2 ) ) * p;
+			return calc_val.toFixed(2) + " "+ msr;
 		}
+	}else{
+		return "";
+	}
+}
+function setBillableWeight(){
+	var target = $( ".table.pieces > tbody > tr > td:last" );
+	target.each( function( index, td ) {
+		app.input.weight = sumup( app.input.weight, $(this).text() );
+	});
+}
+function updateBillableWeight(){
+	var target = $( ".table.pieces > tbody > tr:last > td:last" );
+	app.input.weight = substract( app.input.weight, target.text() );
+}
+function sumup( input_a, input_b, to=2 ){
+	try{
+		return ( Number( input_a ) + Number( input_b ) ).toFixed( to );
+	}catch( e ){
+		console.log( "could not sum '"+ input_a + "' '" + input_b + "'" );
+	}
+}
+function substract( input_a, input_b, to=2 ){
+	try{
+		return ( Number( input_a ) - Number( input_b ) ).toFixed( to );
+	}catch( e ){
+		console.log( "could not substract '"+ input_a + "' from '" + input_b + "'" );
+	}
+}
+function multiply( input_a, input_b, to=2 ){
+	try{
+		return ( Number( input_a ) * Number( input_b ) ).toFixed( to );
+	}catch( e ){
+		console.log( "could not multiply '"+ input_a + "' and '" + input_b + "'" );
 	}
 }
 function toServiceJSON(){
@@ -478,7 +551,7 @@ function toServiceJSON(){
 			"bill_to": app.input.bill_to,
 			"platinum_service": "",
 			"insurance_amount": "",
-			"dimensions": app.input.dimmensions,
+			"dimensions": app.input.dimensions,
 			"dimensions_qualifier": app.input.dimensions_qualifier,
 			"tracking": ""
 		}
@@ -523,6 +596,9 @@ function setupFormValidations(){
 			result = true;
 		}
 		return !result;
+	};
+	$.fn.form.settings.rules.piece_check = function() {
+		return !( app.input.pieces <= 0 );
 	};
 
 	$( '.ui.form' ).form({ on: 'blur', inline: true,
@@ -630,30 +706,11 @@ function setupFormValidations(){
 						type   : 'empty'
 					}]
 			},
-			weight: {
-					identifier: 'weight',
-					rules: [{
-						type   : 'number'
-					}]
-			},
 			value: {
 					identifier: 'value',
 					rules: [{
 						type   : 'value_check',
 						prompt : 'Value for DOC should be 0 or 1, for APX use the valid decimal'
-					}]
-			},
-			pieces: {
-					identifier: 'pieces',
-					rules: [{
-						type   : 'integer'
-					}]
-			},
-			dimensions: {
-					identifier: 'dimensions',
-					rules: [{
-						type   : 'dim_check',
-						prompt : 'Please ensure the input matches L x W x H'
 					}]
 			}
     }
@@ -724,10 +781,29 @@ function generateBarcodeData( trk ){
 function showError( msg, err ){
 	console.log( msg );
 	console.log( err );
-	$( ".formmsg" ).html( msg+"<br/>"+ err.message + "<br/>" + err.developerMessage.replace( "\n", "<br/>") );
+	var m = "";
+	var dm = "";
+	try{
+		m = err.message;
+		dm = err.developerMessage.replace( "\n", "<br/>" );
+	}catch( e ){
+		console.log( e )
+	}
+	$( ".formmsg" ).html( msg+"<br/>"+ m + "<br/>" + dm );
 	if( !$(".formmsg").hasClass( "visible" ) ){
 		$( ".formmsg" ).addClass( "ui error message" ).transition( "scale" );
 	}
+}
+function greaterOf( input, input_b ){
+	return ( Number(input) > Number(input_b) ) ? input : input_b;
+}
+function validateInput( ){
+	$( '.ui.form' ).form( 'validate form' );
+	var v = $( '.ui.form' ).form('is valid');
+	if( app.input.pieces < 1 ){
+		v = false;
+	}
+	return v;
 }
 function init(){
 	$( "#year" ).text( new Date().getFullYear() );
@@ -741,8 +817,8 @@ function init(){
 	$( "#tag" ).text( app.id );
 	$( ".blue.button" ).click( function( e ){
 		e.preventDefault();
-		$( '.ui.form' ).form( 'validate form' );
-		if( $( '.ui.form' ).form('is valid')) {
+
+		if( validateInput() ){
 
 			$.ajax({
 				type: "POST",
@@ -767,10 +843,66 @@ function init(){
     		console.log( "Airwaybill cycle completed" );
   		});
 		}else{
-			$( ".error.message" ).html( "Your form entry is not complete" );
+		//	$( ".error.message" ).html( "Your input is not complete" );
+			showError( "Your input is not complete. Make sure you have at least 1 piece added." );
 		}
-
+		return false;
 	});
+
+	$( ".green.button" ).click(function( e ){
+		e.preventDefault();
+		var target = $(".table.pieces > tbody");
+		if( app.input.declared_weight != '' ){
+			var tr = $( "<tr/>" );
+			tr.append( $( "<td/>" ).text( app.input.piece_multiplier ) );
+			app.input.pieces = sumup( app.input.pieces, app.input.piece_multiplier, 0 );
+			var dw = Number( app.input.declared_weight );
+			app.input.declared_weight = "";
+			app.input.dec_weight = sumup( app.input.dec_weight, dw );
+			var dw = Number( dw ).toFixed( 2 );
+			tr.append( $( "<td/>" ).html( dw ) );
+			if( app.input.piece_dimension != '' ){
+				var pd = app.input.piece_dimension;
+				app.input.piece_dimension = "";
+				var tpd = calculateVolumetricWeight( pd, app.input.piece_multiplier );
+				if( tpd !== "" ){
+					tr.append( $( "<td/>" ).html( pd ) );
+					tr.append( $( "<td/>" ).html( tpd ) );
+					app.input.vol_weight = sumup( app.input.vol_weight, tpd.split( " " )[0] );
+					tr.append( $( "<td/>" ).html( multiply( greaterOf( dw, tpd.split( " " )[0] ), app.input.piece_multiplier ) ) );
+				}else{
+					tr.append( $( "<td/>" ).text( '' ) ).append( $( "<td/>" ).text( '' ) ).append( $( "<td/>" ).text( multiply( dw, app.input.piece_multiplier ) ) );
+				}
+			}else{
+				tr.append( $( "<td/>" ).text('') ).append( $( "<td/>" ).text('') ).append( $( "<td/>" ).text( multiply( dw, app.input.piece_multiplier ) ) );
+			}
+			target.append( tr );
+			app.input.piece_multiplier = 1;
+		}
+		setBillableWeight();
+		return false;
+  });
+
+  $( ".orange.button" ).click(function( e ){
+    e.preventDefault();
+    var target = $(".table.pieces > tbody");
+    var lr = target.find( "tr:last" );
+    if( lr.length > 0 ){
+	    var i = lr.find( "td:first" ).text();
+	    app.input.pieces = substract( app.input.pieces, i, 0 );
+	    i = lr.find( "td:nth-child(2)" ).text();
+	    app.input.dec_weight = substract( app.input.dec_weight, i );
+	    i = lr.find( "td:nth-child(4)" ).text();
+	    if( i != "" ){
+	   		app.input.vol_weight = substract( app.input.vol_weight, i.split( " " )[0] );
+	    }
+			updateBillableWeight();
+	    lr.remove();
+
+    }
+		return false;
+  });
+
 	//Textfield blur
 	$( "#dimensions" ).keyup(function() {
 		calculateVolumetricWeight();
@@ -790,6 +922,7 @@ function init(){
 				$(this).removeClass( "ui error message" ).empty();
 			});
 		}
+		return false;
 	});
 	setupFormValidations();
 	$( ".modal" ).modal({
@@ -797,6 +930,7 @@ function init(){
 		onShow: function(){
 			$( "#created_dt" ).html( getDateString() );
 			$( "#awbmodal > .header" ).html( "Track Number " + app.input.tracking );
+			$( "#outpiece_table" ).html( $( ".table.pieces" ).html() );
 		},
     onDeny: function(){
 			$( ".red.button" ).click();
