@@ -202,8 +202,8 @@
 							</div>
 							<div class="field">
 							<div style="margin-top: 25px;">
-								<button class="ui circular green button">+</button>
-								<button class="ui circular orange button">-</button>
+								<button class="ui circular icon green button"><i class="plus icon"></i></button>
+								<button class="ui circular icon orange button"><i class="minus icon"></i></button>
 							</div>
 							</div>
 
@@ -484,10 +484,6 @@ function setBillableWeight(){
 	target.each( function( index, td ) {
 		app.input.weight = sumup( app.input.weight, $(this).text() );
 	});
-}
-function updateBillableWeight(){
-	var target = $( ".table.pieces > tbody > tr:last > td:last" );
-	app.input.weight = substract( app.input.weight, target.text() );
 }
 function sumup( input_a, input_b, to=2 ){
 	try{
@@ -892,7 +888,7 @@ function init(){
 	    if( i != "" ){
 	   		app.input.vol_weight = substract( app.input.vol_weight, i.split( " " )[0] );
 	    }
-			updateBillableWeight();
+			app.input.weight = substract( app.input.weight, lr.find( "td:last" ).text() );
 	    lr.remove();
 
     }
